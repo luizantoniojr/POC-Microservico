@@ -1,5 +1,8 @@
 ﻿using Cliente.Infra.IoC;
 using Microsoft.Extensions.DependencyInjection;
+using MediatR;
+using Cliente.Application.Bus;
+using Cliente.Application.CommandSide.Commands;
 
 namespace Cliente.RabbitMQAdapter
 {
@@ -7,9 +10,14 @@ namespace Cliente.RabbitMQAdapter
     {
         static void Main(string[] args)
         {
-            var serviceProvider = new ServiceCollection();
-            InjectorBootStrapper.RegisterServices(serviceProvider);
-            serviceProvider.BuildServiceProvider();
+            var services = new ServiceCollection();
+            InjectorBootStrapper.RegisterServices(services);
+            services.AddMediatR(typeof(Program));
+            var serviceProvider = services.BuildServiceProvider();
+
+
+            var bus = serviceProvider.GetService<IMediatorHandler>();
+            bus.SendCommand(new CadastroClienteCommand());
         }
     }
 }

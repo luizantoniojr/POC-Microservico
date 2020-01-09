@@ -22,8 +22,11 @@ namespace Cliente.Infra.IoC
 
 
             services.AddScoped<IRequestHandler<CadastroClienteCommand, bool>, ClienteCommandHandler>();
+            
             services.AddScoped<IRequestHandler<ClienteQuery, ClienteQueryResult>, ClienteQueryHandler>();
+           
             services.AddScoped<INotificationHandler<ClienteCadastradoEvent>, ClienteEventHandler>();
+            services.AddScoped<INotificationHandler<ClienteInvalidoEvent>, ClienteEventHandler>();
 
 
             services.AddScoped<IClienteRepository, ClienteRepository>();
